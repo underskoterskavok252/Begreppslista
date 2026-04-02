@@ -53,8 +53,6 @@
             border-top: 1px solid #e0ebd0;
         }
         
-        .audio-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: 5px 10px; border-radius: 5px; }
-        .audio-btn:hover { background: #e8f5e9; }
         .arrow { font-size: 1rem; color: #aaa; transition: transform 0.3s; margin-left: 10px; }
         .card.open .arrow { transform: rotate(180deg); }
         p { line-height: 1.6; margin: 0; }
@@ -70,18 +68,15 @@
     <div class="container">
         <h1>Begreppslista (Vecka 15)</h1>
         <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px;">
-            Ord markerade med asterisk (*) är extra viktiga att kunna förklara. Klicka på korten för att se förklaringen och klicka på 🔊 för att höra uttalet.
+            Ord markerade med asterisk (*) är extra viktiga att kunna förklara. Klicka på korten för att se förklaringen och höra uttalet.
         </p>
 
         <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-header" onclick="toggleCard(this, 'Demokratisk värdegrund. Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället.')">
                 <div class="title-box">
                     <span class="sv-title">Demokratisk värdegrund</span>
                 </div>
-                <div>
-                    <button class="audio-btn" onclick="tala(event, 'Demokratisk värdegrund. Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället.')">🔊</button>
-                    <span class="arrow">▼</span>
-                </div>
+                <span class="arrow">▼</span>
             </div>
             <div class="card-content">
                 <p>Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället.</p>
@@ -89,14 +84,11 @@
         </div>
 
         <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-header" onclick="toggleCard(this, 'Lika värde. Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske.')">
                 <div class="title-box">
                     <span class="sv-title">* Lika värde</span>
                 </div>
-                <div>
-                    <button class="audio-btn" onclick="tala(event, 'Lika värde. Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske.')">🔊</button>
-                    <span class="arrow">▼</span>
-                </div>
+                <span class="arrow">▼</span>
             </div>
             <div class="card-content">
                 <p>Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske.</p>
@@ -104,14 +96,11 @@
         </div>
 
         <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-header" onclick="toggleCard(this, 'Likvärdighet. Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.')">
                 <div class="title-box">
                     <span class="sv-title">* Likvärdighet</span>
                 </div>
-                <div>
-                    <button class="audio-btn" onclick="tala(event, 'Likvärdighet. Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.')">🔊</button>
-                    <span class="arrow">▼</span>
-                </div>
+                <span class="arrow">▼</span>
             </div>
             <div class="card-content">
                 <p>Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.</p>
@@ -119,14 +108,11 @@
         </div>
 
         <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-header" onclick="toggleCard(this, 'Inkludering. Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund.')">
                 <div class="title-box">
                     <span class="sv-title">* Inkludering</span>
                 </div>
-                <div>
-                    <button class="audio-btn" onclick="tala(event, 'Inkludering. Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund.')">🔊</button>
-                    <span class="arrow">▼</span>
-                </div>
+                <span class="arrow">▼</span>
             </div>
             <div class="card-content">
                 <p>Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund.</p>
@@ -134,22 +120,33 @@
         </div>
 
         <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
+            <div class="card-header" onclick="toggleCard(this, 'Tillgänglighet. Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget.')">
                 <div class="title-box">
                     <span class="sv-title">* Tillgänglighet</span>
                 </div>
-                <div>
-                    <button class="audio-btn" onclick="tala(event, 'Tillgänglighet. Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget.')">🔊</button>
-                    <span class="arrow">▼</span>
-                </div>
+                <span class="arrow">▼</span>
             </div>
             <div class="card-content">
-                <p>Innebär att alla miljöer i samhället ska vara برای برآورده شدن این نیاز آماده باشند. Alla ska känna sig välkomna och vara en del i sammanhanget.</p>
+                <p>Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget.</p>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card
+    </div>
+
+    <script>
+        function toggleCard(header, text) {
+            // باز و بسته کردن کادر
+            header.parentElement.classList.toggle('open');
+            
+            // پخش صدا در صورت باز شدن کادر
+            if (header.parentElement.classList.contains('open')) {
+                window.speechSynthesis.cancel(); // متوقف کردن صداهای قبلی
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'sv-SE';
+                msg.rate = 0.85; // سرعت خواندن ملایم
+                window.speechSynthesis.speak(msg);
+            }
+        }
     </script>
 </body>
 </html>
