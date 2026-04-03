@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ett helhetsperspektiv - Quiz & Minne</title>
+    <title>Ett helhetsperspektiv - Quiz & Feedback</title>
     <style>
         :root {
             --bg-color: #f7fafc;
@@ -55,7 +55,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* استایل بخش ثبت نام و خوشامدگویی */
         .welcome-title { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
         
         input[type="text"], textarea {
@@ -81,7 +80,6 @@
         }
         .btn:hover { background-color: var(--primary-hover); }
 
-        /* استایل کوئیز */
         .option-btn {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -97,7 +95,6 @@
         .option-btn.correct { background-color: #c6f6d5; color: #22543d; font-weight: bold; }
         .option-btn.wrong { background-color: #fed7d7; color: #822727; }
 
-        /* استایل بخش نظرسنجی */
         .stars { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;}
         .star { font-size: 2rem; cursor: pointer; color: #cbd5e1; }
         .star.selected { color: #f59e0b; }
@@ -144,15 +141,19 @@
                 <span class="star" onclick="rate(5)">★</span>
             </div>
             
-            <textarea id="feedback-text" rows="4" placeholder="Skriv dina tankar här (frivilligt)..."></textarea>
-            <button class="btn" onclick="saveSurvey()">Skicka feedback</button>
+            <form id="formspree-form">
+                <input type="hidden" id="form-name" name="student_name">
+                <input type="hidden" id="form-stars" name="rating_stars">
+                <textarea id="feedback-text" name="comment" rows="4" placeholder="Skriv dina tankar här (frivilligt)..."></textarea>
+                <button type="button" class="btn" onclick="saveSurvey()">Skicka feedback</button>
+            </form>
+            
             <div id="survey-thanks" style="text-align:center; color:#27ae60; font-weight:bold; margin-top:10px; display:none;">Tack för din feedback! ❤️</div>
         </div>
 
     </div>
 
     <script>
-        // دیتابیس سوالات
         const quizData = [
             {
                 fraga: "Vad innebär 'Inkludering' enligt texten?",
@@ -173,14 +174,14 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedRating = 0;
+        let userName = "";
 
-        // کدهای حافظه LocalStorage
         window.onload = function() {
             const savedName = localStorage.getItem('student_name');
             if (savedName) {
+                userName = savedName;
                 showWelcome(savedName);
             }
-            loadFeedback();
         }
 
         function registerUser() {
@@ -190,6 +191,7 @@
                 return;
             }
             localStorage.setItem('student_name', nameInput);
+            userName = nameInput;
             showWelcome(nameInput);
         }
 
@@ -209,10 +211,9 @@
 
         function clearMemory() {
             localStorage.clear();
-            location.reload(); // رفرش صفحه
+            location.reload();
         }
 
-        // کدهای کنترل کوئیز
         function generateQuestion() {
             const currentQuiz = quizData[currentQuestionIndex];
             document.getElementById('question-text').innerText = `Fråga ${currentQuestionIndex + 1}/${quizData.length}: ${currentQuiz.fraga}`;
@@ -258,7 +259,6 @@
             if (currentQuestionIndex < quizData.length) {
                 generateQuestion();
             } else {
-                // اتمام کوئیز و ذخیره در حافظه
                 document.getElementById('quiz-section').innerHTML = `<h3>Klar! Du fick ${score} av ${quizData.length} rätt.</h3>`;
                 const topScore = localStorage.getItem('quiz_score_helhet');
                 if (!topScore || score > parseInt(topScore)) {
@@ -267,7 +267,6 @@
             }
         }
 
-        // کدهای فرم نظرخواهی
         function rate(stars) {
             selectedRating = stars;
             const starElements = document.querySelectorAll('.star');
@@ -278,16 +277,36 @@
 
         function saveSurvey() {
             const comment = document.getElementById('feedback-text').value;
-            localStorage.setItem('feedback_rating', selectedRating);
-            localStorage.setItem('feedback_comment', comment);
-            document.getElementById('survey-thanks').style.display = 'block';
-        }
 
-        function loadFeedback() {
-            const savedRating = localStorage.getItem('feedback_rating');
-            const savedComment = localStorage.getItem('feedback_comment');
-            if (savedRating) rate(parseInt(savedRating));
-            if (savedComment) document.getElementById('feedback-text').value = savedComment;
+            document.getElementById('form-name').value = userName;
+            document.getElementById('form-stars').value = selectedRating + " stjärnor";
+
+            // لینک اختصاصی شما در اینجا قرار گرفته است:
+            const formspreeUrl = "https://formspree.io/f/xqegybzg"; 
+
+            fetch(formspreeUrl, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    student_name: userName,
+                    rating: selectedRating + " stjärnor",
+                    comment: comment
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('survey-thanks').style.display = 'block';
+                    document.getElementById('feedback-text').value = ""; 
+                } else {
+                    alert("Ett fel uppstod. Försök igen!");
+                }
+            })
+            .catch(error => {
+                alert("Ett fel uppstod. Kontrollera din anslutning!");
+            });
         }
     </script>
 </body>
