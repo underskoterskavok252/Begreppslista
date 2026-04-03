@@ -95,9 +95,19 @@
         .option-btn.correct { background-color: #c6f6d5; color: #22543d; font-weight: bold; }
         .option-btn.wrong { background-color: #fed7d7; color: #822727; }
 
-        .stars { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;}
-        .star { font-size: 2rem; cursor: pointer; color: #cbd5e1; }
-        .star.selected { color: #f59e0b; }
+        .survey-btn {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .survey-btn:hover {
+            background-color: #fff5f5;
+            border-color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -108,17 +118,18 @@
         
         <h1>Ett helhetsperspektiv</h1>
 
-        <div id="survey-section" class="box" style="display:none; text-align: center;">
-            <h2 style="margin-top:0;">Vad tyckte du om den här lektionen?</h2>
-            <p style="color: #718096; font-size: 0.9rem;">Ditt betyg hjälper mig att förbättra innehållet.</p>
-            
-            <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-                <button class="option-btn" style="width: auto; font-size: 1.5rem; padding: 10px 20px;" onclick="sendQuickFeedback('Tråkigt/Svårt 😕')">😕</button>
-                <button class="option-btn" style="width: auto; font-size: 1.5rem; padding: 10px 20px;" onclick="sendQuickFeedback('Bra/Normalt 🙂')">🙂</button>
-                <button class="option-btn" style="width: auto; font-size: 1.5rem; padding: 10px 20px;" onclick="sendQuickFeedback('Jättebra! 😍')">😍</button>
+        <div id="auth-section" class="box">
+            <div id="register-form">
+                <h2 class="welcome-title">Välkommen! Vad heter du?</h2>
+                <p style="color: #718096;">Skriv ditt namn för att spara dina framsteg på den här enheten.</p>
+                <input type="text" id="user-name-input" placeholder="Ditt namn...">
+                <button class="btn" onclick="registerUser()">Spara och startا</button>
             </div>
-            
-            <div id="survey-thanks" style="color:#27ae60; font-weight:bold; display:none;">Tack! Ditt betyg har skickats. ❤️</div>
+            <div id="welcome-message" style="display:none; text-align: center;">
+                <h2 class="welcome-title">Hej <span id="display-name"></span>! 👋</h2>
+                <p id="high-score-text">🏆 Bästa resultat: Inget sparat än</p>
+                <button class="btn" style="width:auto; background:#718096;" onclick="clearMemory()">Rensa minne (Logga ut)</button>
+            </div>
         </div>
 
         <div id="quiz-section" class="box" style="display:none;">
@@ -129,25 +140,17 @@
             <button id="next-btn" class="btn" style="display:none; margin-top:15px;" onclick="nextQuestion()">Nästa fråga ➡️</button>
         </div>
 
-        <div id="survey-section" class="box" style="display:none;">
-            <h2 style="margin-top:0;">Vad tycker du om lektionen?</h2>
+        <div id="survey-section" class="box" style="display:none; text-align: center;">
+            <h2 style="margin-top:0;">Vad tyckte du om den här lektionen?</h2>
+            <p style="color: #718096; font-size: 0.9rem;">Ditt betyg hjälper mig att förbättra innehållet.</p>
             
-            <div class="stars">
-                <span class="star" onclick="rate(1)">★</span>
-                <span class="star" onclick="rate(2)">★</span>
-                <span class="star" onclick="rate(3)">★</span>
-                <span class="star" onclick="rate(4)">★</span>
-                <span class="star" onclick="rate(5)">★</span>
+            <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+                <button class="survey-btn" onclick="sendQuickFeedback('Tråkigt/Svårt 😕')">😕</button>
+                <button class="survey-btn" onclick="sendQuickFeedback('Bra/Normalt 🙂')">🙂</button>
+                <button class="survey-btn" onclick="sendQuickFeedback('Jättebra! 😍')">😍</button>
             </div>
             
-            <form id="formspree-form">
-                <input type="hidden" id="form-name" name="student_name">
-                <input type="hidden" id="form-stars" name="rating_stars">
-                <textarea id="feedback-text" name="comment" rows="4" placeholder="Skriv dina tankar här (frivilligt)..."></textarea>
-                <button type="button" class="btn" onclick="saveSurvey()">Skicka feedback</button>
-            </form>
-            
-            <div id="survey-thanks" style="text-align:center; color:#27ae60; font-weight:bold; margin-top:10px; display:none;">Tack för din feedback! ❤️</div>
+            <div id="survey-thanks" style="color:#27ae60; font-weight:bold; display:none;">Tack! Ditt betyg har skickats. ❤️</div>
         </div>
 
     </div>
@@ -172,7 +175,6 @@
 
         let currentQuestionIndex = 0;
         let score = 0;
-        let selectedRating = 0;
         let userName = "";
 
         window.onload = function() {
@@ -266,21 +268,7 @@
             }
         }
 
-        function rate(stars) {
-            selectedRating = stars;
-            const starElements = document.querySelectorAll('.star');
-            starElements.forEach((el, index) => {
-                el.classList.toggle('selected', index < stars);
-            });
-        }
-
-        function saveSurvey() {
-            const comment = document.getElementById('feedback-text').value;
-
-            document.getElementById('form-name').value = userName;
-            document.getElementById('form-stars').value = selectedRating + " stjärnor";
-
-            // لینک اختصاصی شما در اینجا قرار گرفته است:
+        function sendQuickFeedback(ratingText) {
             const formspreeUrl = "https://formspree.io/f/xqegybzg"; 
 
             fetch(formspreeUrl, {
@@ -291,20 +279,14 @@
                 },
                 body: JSON.stringify({
                     student_name: userName,
-                    rating: selectedRating + " stjärnor",
-                    comment: comment
+                    lesson: "Ett helhetsperspektiv",
+                    rating: ratingText
                 })
             })
             .then(response => {
                 if (response.ok) {
                     document.getElementById('survey-thanks').style.display = 'block';
-                    document.getElementById('feedback-text').value = ""; 
-                } else {
-                    alert("Ett fel uppstod. Försök igen!");
                 }
-            })
-            .catch(error => {
-                alert("Ett fel uppstod. Kontrollera din anslutning!");
             });
         }
     </script>
