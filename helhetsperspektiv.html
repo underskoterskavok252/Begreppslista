@@ -123,7 +123,7 @@
                 <h2 class="welcome-title">Välkommen! Vad heter du?</h2>
                 <p style="color: #718096;">Skriv ditt namn för att spara dina framsteg på den här enheten.</p>
                 <input type="text" id="user-name-input" placeholder="Ditt namn...">
-                <button class="btn" onclick="registerUser()">Spara och startا</button>
+                <button class="btn" onclick="registerUser()">Spara och starta</button>
             </div>
             <div id="welcome-message" style="display:none; text-align: center;">
                 <h2 class="welcome-title">Hej <span id="display-name"></span>! 👋</h2>
@@ -156,48 +156,96 @@
     </div>
 
     <script>
+        // ۱۰ سوال تخصصی و ۴ گزینه‌ای برای این درس
         const quizData = [
             {
-                fraga: "Vad innebär 'Inkludering' enligt texten?",
+                fraga: "Vad innebär ett 'helhetsperspektiv' inom vård och omsorg?",
                 svar: [
-                    { text: "Att alla får vara med och känna gemenskap oavsett förutsättningar.", correct: true },
-                    { text: "Att man måste göra allting helt själv utan hjälp.", correct: false }
+                    { text: "Att se hela människan och ta hänsyn till både fysiska, psykiska, sociala och existentiella behov.", correct: true },
+                    { text: "Att enbart fokusera på den fysiska sjukdomen eller skadan.", correct: false },
+                    { text: "Att personalen fattar alla beslut utan att blanda in brukaren.", correct: false },
+                    { text: "Att alla brukare på ett boende behandlas på exakt samma sätt.", correct: false }
                 ]
             },
             {
-                fraga: "Vad betyder 'Autonomi'?",
+                fraga: "Vad betyder begreppet 'Autonomi'?",
                 svar: [
-                    { text: "Självbestämmande.", correct: true },
-                    { text: "Att personalen bestämmer allt.", correct: false }
+                    { text: "Rätten till självbestämmande och att få fatta egna beslut om sitt liv.", correct: true },
+                    { text: "Att personalen har rätt att bestämma över brukarens vardag.", correct: false },
+                    { text: "Att alla insatser ska utföras i grupp tillsammans med andra.", correct: false },
+                    { text: "Att man måste klara allting helt själv utan hjälp från samhället.", correct: false }
                 ]
             },
             {
-                fraga: "När stängdes många stora institutioner tack vare omsorgslagen?",
+                fraga: "Vilket år stängdes många stora institutioner tack vare avvecklingen av de gamla vårdformerna?",
                 svar: [
-                    { text: "På 1960-talet.", correct: true },
-                    { text: "På 1930-talet.", correct: false }
+                    { text: "Under slutet av 1900-talet (främst 1990-talet genom LSS och handikappreformen).", correct: true },
+                    { text: "I början av 1920-talet.", correct: false },
+                    { text: "Direkt efter andra världskriget 1945.", correct: false },
+                    { text: "Det har ännu inte hänt i Sverige.", correct: false }
                 ]
             },
             {
-                fraga: "Vilken lag kom 1994 för att ge stöd och service till vissa funktionshindrade?",
+                fraga: "Vilken lag trädde i kraft 1994 för att garantera goda levnadsvillkor för vissa personer med funktionsnedsättning?",
                 svar: [
-                    { text: "LSS.", correct: true },
-                    { text: "SoL (Socialtjänstlagen).", correct: false }
+                    { text: "LSS (Lagen om stöd och service till vissa funktionshindrade).", correct: true },
+                    { text: "SoL (Socialtjänstlagen).", correct: false },
+                    { text: "HSL (Hälso- och sjukvårdslagen).", correct: false },
+                    { text: "Arbetsmiljölagen.", correct: false }
                 ]
             },
             {
-                fraga: "Vad innebär ett 'kompensatoriskt förhållningssätt' hos en undersköterska?",
+                fraga: "Vad innebär ett 'kompensatoriskt förhållningssätt' hos personalen?",
                 svar: [
-                    { text: "Att ge extra stöd så att alla får lika goda möjligheter och upplevelser.", correct: true },
-                    { text: "Att behandla exakt alla på precis samma sätt utan undantag.", correct: false }
+                    { text: "Att ge det stöd som behövs för att kompensera för en funktionsnedsättning så att personen kan leva som andra.", correct: true },
+                    { text: "Att kräva att personen ska klara allt själv för att träna upp sig.", correct: false },
+                    { text: "Att ge ekonomisk ersättning till den som är sjuk.", correct: false },
+                    { text: "Att personalen tar över alla sysslor även det personen faktiskt kan göra själv.", correct: false }
                 ]
-            }
-        ];
+            },
             {
-                fraga: "Vad betyder 'Autonomi'?",
+                fraga: "Vad innebär begreppet 'Inkludering'?",
                 svar: [
-                    { text: "Självbestämmande.", correct: true },
-                    { text: "Att personalen bestämmer allt.", correct: false }
+                    { text: "Att alla människor ska känna sig välkomna och vara en del av gemenskapen i samhället.", correct: true },
+                    { text: "Att personer med funktionsnedsättningar ska leva samlade på särskilda områden.", correct: false },
+                    { text: "Att man bara bjuder in personer som har samma diagnos till aktiviteter.", correct: false },
+                    { text: "Att alla i samhället måste tycka och tänka likadant.", correct: false }
+                ]
+            },
+            {
+                fraga: "Vad är målet med 'Habilitering' och 'Rehabilitering'?",
+                svar: [
+                    { text: "Att bibehålla eller återfå bästa möjliga funktionsförmåga och självständighet.", correct: true },
+                    { text: "Att bota alla kroniska sjukdomar med medicin.", correct: false },
+                    { text: "Att utreda vem som bär skulden för att en skada har uppstått.", correct: false },
+                    { text: "Att bedöma om personen har rätt till ekonomiskt bistånd.", correct: false }
+                ]
+            },
+            {
+                fraga: "Vad menas med 'Delaktighet' i vårdsammanhang?",
+                svar: [
+                    { text: "Att brukaren är aktivt involverad i planeringen och genomförandet av sina egna insatser.", correct: true },
+                    { text: "Att brukaren tvingas delta i alla gruppaktiviteter på boendet.", correct: false },
+                    { text: "Att man delar upp arbetsuppgifterna rättvist mellan personalen.", correct: false },
+                    { text: "Att de anhöriga får ta över alla beslutanderätter från brukaren.", correct: false }
+                ]
+            },
+            {
+                fraga: "Vilken princip innebär att alla människor har samma grundläggande värde, oavsett förmågor eller bakgrund?",
+                svar: [
+                    { text: "Principen om alla människors lika värde (Människovärdesprincipen).", correct: true },
+                    { text: "Normaliseringsprincipen.", correct: false },
+                    { text: "Integritetsprincipen.", correct: false },
+                    { text: "Självbestämmandeprincipen.", correct: false }
+                ]
+            },
+            {
+                fraga: "Vad är syftet med 'Normaliseringsprincipen'?",
+                svar: [
+                    { text: "Att personer med funktionsnedsättning ska ha möjlighet att leva ett liv som liknar andras så mycket som möjligt.", correct: true },
+                    { text: "Att tvinga alla att bete sig exakt likadant.", correct: false },
+                    { text: "Att alla sjukdomar ska behandlas med standardiserade metoder.", correct: false },
+                    { text: "Att dölja funktionsnedsättningar så att de inte syns i samhället.", correct: false }
                 ]
             }
         ];
@@ -290,6 +338,7 @@
                 generateQuestion();
             } else {
                 document.getElementById('quiz-section').innerHTML = `<h3>Klar! Du fick ${score} av ${quizData.length} rätt.</h3>`;
+                
                 const topScore = localStorage.getItem('quiz_score_helhet');
                 if (!topScore || score > parseInt(topScore)) {
                     localStorage.setItem('quiz_score_helhet', score);
