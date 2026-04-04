@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Begreppslista v.15 - Premium Edition</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg-color: #f0f4f8;
@@ -47,7 +48,7 @@
         }
 
         nav .nav-container {
-            max-width: 1200px;
+            max-width: 1200px; /* عریض بودن کادر منو */
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -82,7 +83,7 @@
         .theme-toggle:hover { color: #fff; border-color: #fff; }
 
         .container {
-            max-width: 1200px;
+            max-width: 1200px; /* عریض بودن کادر محتوا */
             margin: 30px auto;
             padding: 0 20px; padding-bottom: 50px;
             flex: 1;
@@ -91,52 +92,70 @@
         h1 { color: var(--primary-color); text-align: center; font-weight: 800; font-size: 2.2rem; margin-bottom: 10px; }
         .page-subtitle { text-align: center; color: #718096; margin-bottom: 30px; font-size: 1.1rem; }
         
-        .table-responsive {
-            overflow-x: auto;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
+        .box {
+            background-color: var(--card-bg); padding: 30px; border-radius: 16px;
+            border: 1px solid var(--border-color); margin-bottom: 25px; box-shadow: var(--shadow-md);
             transition: background-color 0.3s, border-color 0.3s;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.95rem;
+        .section-title { font-size: 1.5rem; color: var(--text-color); margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+        .btn {
+            background-color: var(--primary-color); color: white; border: none; padding: 12px 24px;
+            border-radius: 10px; font-size: 1rem; cursor: pointer; font-weight: 700; transition: background 0.2s, transform 0.1s;
         }
+        .btn:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        .btn-secondary { background-color: #718096; }
+        .btn-secondary:hover { background-color: #4a5568; }
 
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 700;
-            padding: 16px;
-            font-size: 1rem;
+        /* لیست لغات */
+        .term-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; border-bottom: 1px solid var(--border-color);
         }
+        .term-item:last-child { border-bottom: none; }
+        .swedish-word { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
+        .swedish-explanation { color: var(--text-color); font-size: 0.95rem; max-width: 70%; text-align: right; }
 
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-color);
-            vertical-align: top;
+        /* فلش کارت */
+        .flashcard-area { display: flex; justify-content: center; margin: 30px 0; }
+        .flashcard {
+            width: 100%; max-width: 500px; height: 250px; perspective: 1000px; cursor: pointer;
         }
+        .flashcard-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.6s; transform-style: preserve-3d;
+            box-shadow: var(--shadow-md); border-radius: 16px;
+        }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 25px; box-sizing: border-box;
+            border-radius: 16px; background-color: var(--card-bg); border: 2px solid var(--border-color);
+        }
+        .flashcard-back { transform: rotateY(180deg); }
+        
+        /* کوئیز */
+        .progress-container { width: 100%; background-color: #e2e8f0; border-radius: 10px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+        [data-theme="dark"] .progress-container { background-color: #4a5568; }
+        .progress-bar { height: 100%; background-color: var(--primary-color); width: 0%; transition: width 0.3s ease; }
 
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background-color: rgba(224, 108, 117, 0.05); }
+        .option-btn {
+            background-color: var(--card-bg); border: 2px solid var(--border-color); padding: 16px;
+            border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 12px; width: 100%;
+            font-size: 1rem; transition: all 0.2s; color: var(--text-color); font-weight: 500;
+        }
+        .option-btn:hover:not(:disabled) { background-color: #fff5f5; border-color: var(--primary-color); transform: translateX(5px); }
+        [data-theme="dark"] .option-btn:hover:not(:disabled) { background-color: #442a2c; }
+        .option-btn.correct { background-color: #c6f6d5 !important; border-color: #22543d !important; color: #22543d !important; font-weight: 700; }
+        .option-btn.wrong { background-color: #fed7d7 !important; border-color: #822727 !important; color: #822727 !important; }
 
-        .swedish-word { font-weight: 700; color: var(--primary-color); font-size: 1.05rem; }
-        .persian-word { font-family: 'Segoe UI', Tahoma, sans-serif; direction: rtl; text-align: right; font-weight: 600; color: #4a5568; }
-        [data-theme="dark"] .persian-word { color: #cbd5e0; }
+        .result-screen { text-align: center; }
+        .result-score { font-size: 3rem; font-weight: 800; color: var(--primary-color); margin: 20px 0; }
 
         footer {
-            background-color: var(--nav-bg);
-            color: #a0aec0;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.85rem;
-            margin-top: auto;
-            border-top: 1px solid var(--border-color);
+            background-color: var(--nav-bg); color: #a0aec0; text-align: center;
+            padding: 20px; font-size: 0.85rem; margin-top: auto; border-top: 1px solid var(--border-color);
         }
         footer span { color: #ffffff; font-weight: 600; }
     </style>
@@ -157,115 +176,53 @@
     <div class="container">
         
         <h1>Begreppslista vecka 15</h1>
-        <p class="page-subtitle">Ordlista baserad på din fil med svenska förklaringar och persisk översättning.</p>
+        <p class="page-subtitle">Öva på viktiga begrepp, använd flashcards och gör quiz.</p>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">🇸🇪 Begrepp</th>
-                        <th style="width: 20%; text-align: right;">🇮🇷 Persiska</th>
-                        <th style="width: 55%;">📝 Förklaring</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="swedish-word">Demokratisk värdegrund</td>
-                        <td class="persian-word">پایه‌های ارزشی دموکراتیک</td>
-                        <td>Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Lika värde</td>
-                        <td class="persian-word">ارزش برابر</td>
-                        <td>Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Likvärdighet</td>
-                        <td class="persian-word">برابری در فرصت‌ها / هم‌ارزی</td>
-                        <td>Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Inkludering</td>
-                        <td class="persian-word">شامل‌سازی / همه‌شمولی</td>
-                        <td>Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Tillgänglighet</td>
-                        <td class="persian-word">دسترس‌پذیری</td>
-                        <td>Innebär att alla miljöer i samhället ska vara برایeredda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Levnadsvillkor</td>
-                        <td class="persian-word">شرایط زندگی</td>
-                        <td>Levnadsvillkor handlar om hur en person lever och vilka möjligheter personen har till ett bra och tryggt liv.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Delaktighet</td>
-                        <td class="persian-word">مشارکت و سهیم بودن</td>
-                        <td>Betyder att få vara med, påverka och känna att man är viktig i sitt eget liv.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Delaktighetsmodellen</td>
-                        <td class="persian-word">مدل مشارکت</td>
-                        <td>Är ett arbetssätt för att stärka inflytande och självbestämmande för personer i behov av stöd. Modellen bygger på 6 olika delar (Tillgänglighet, Tillhörighet, Engagemang, Samhandling, Autonomi, Erkännande).</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Livskvalitet</td>
-                        <td class="persian-word">کیفیت زندگی</td>
-                        <td>Handlar om brukarens hälsa och välmående. Att känna sig välkommen, behövd och ha en meningsfull fritid.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Normer</td>
-                        <td class="persian-word">هنجارها</td>
-                        <td>Förväntningar, tankar och oskrivna regler om hur någonting är eller ska vara.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Värderingar</td>
-                        <td class="persian-word">ارزش‌ها</td>
-                        <td>Att man får tycka och tänka som man vill och det styr vad vi gör och vad vi säger.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Funktionsförmåga</td>
-                        <td class="persian-word">توانایی عملکردی</td>
-                        <td>Beskriver hur en person fungerar fysiskt, psykiskt, kognitivt och socialt.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Fysisk funktionsförmåga</td>
-                        <td class="persian-word">توانایی عملکرد جسمی</td>
-                        <td>Nedsatt rörelseförmåga, nedsatt syn, nedsatt hörsel. Man kan födas med det eller få det senare i livet.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Psykisk funktionsförmåga</td>
-                        <td class="persian-word">توانایی عملکرد روانی</td>
-                        <td>Trauma, sexuellt övergrepp, krig, livssituation.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Kognitiv funktionsförmåga</td>
-                        <td class="persian-word">توانایی عملکرد شناختی</td>
-                        <td>Svårt med inlärning, minne, svårt att ta in information eller förmedla information, bli störd av olika ljud.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">Social funktionsförmåga</td>
-                        <td class="persian-word">توانایی عملکرد اجتماعی</td>
-                        <td>Svårigheter med att skapa och bibehålla relationer.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Funktionsnedsättning</td>
-                        <td class="persian-word">کم‌توانی / نقص عملکرد</td>
-                        <td>Betyder att en funktion är nedsatt och fungerar på ett annorlunda sätt eller inte alls.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Funktionshinder</td>
-                        <td class="persian-word">مانع عملکردی / معلولیت محیطی</td>
-                        <td>Uppstår när omgivningen gör det svårt för en person med funktionsnedsättning att vara delaktig på lika villkor.</td>
-                    </tr>
-                    <tr>
-                        <td class="swedish-word">* Självbestämmande</td>
-                        <td class="persian-word">حق تعیین سرنوشت / خودفرمانی</td>
-                        <td>Betyder att en person får vara med och تصمیم بگیرد över sitt eget liv.</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="study-section" class="box">
+            <h2 class="section-title"><span>📖</span> Studera begrepp</h2>
+            <div id="terms-list">
+                </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="startFlashcards()">Öva med Flashcards 🗂️</button>
+                <button class="btn btn-secondary" style="margin-left: 10px;" onclick="startQuiz()">Gör Begreppsquiz 🎯</button>
+            </div>
+        </div>
+
+        <div id="flashcard-section" class="box" style="display:none;">
+            <h2 class="section-title"><span>🗂️</span> Flashcards</h2>
+            <div class="flashcard-area">
+                <div class="flashcard" onclick="flipCard()">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h2 style="color: var(--primary-color);" id="card-front-text">Begrepp</h2>
+                            <p style="color: #718096; font-size: 0.9rem;">Klicka för att se förklaringen</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p id="card-back-swedish" style="font-size: 1.1rem; line-height: 1.6; font-weight: 500;">Svensk förklaring</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn btn-secondary" onclick="prevCard()">⬅️ Föregående</button>
+                <span id="card-counter" style="margin: 0 15px; font-weight: 600;">1 / 10</span>
+                <button class="btn" onclick="nextCard()">Nästa ➡️</button>
+                <br><br>
+                <button class="btn btn-secondary" style="font-size: 0.9rem;" onclick="showStudy()">Tillbaka till listan</button>
+            </div>
+        </div>
+
+        <div id="quiz-section" class="box" style="display:none;">
+            <h2 class="section-title"><span>🎯</span> Begreppsquiz</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div id="quiz-content">
+                <div id="question-text" style="font-weight:700; font-size:1.2rem; margin-bottom:20px;">Laddar...</div>
+                <div id="options"></div>
+                <div id="feedback" style="font-weight:700; text-align:center; min-height:1.5em; margin-top:15px;"></div>
+                <button id="next-btn" class="btn" style="display:none; margin: 15px auto 0 auto;" onclick="nextQuestion()">Nästa fråga ➡️</button>
+            </div>
         </div>
 
     </div>
@@ -275,11 +232,179 @@
     </footer>
 
     <script>
+        // دیتابیس لغات فقط به زبان سوئدی
+        const termsData = [
+            { term: "Demokratisk värdegrund", sv: "Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället." },
+            { term: "* Lika värde", sv: "Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske." },
+            { term: "* Likvärdighet", sv: "Något ska vara lika bra för alla. Alla ska ha rätt till samma vård." },
+            { term: "* Inkludering", sv: "Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund." },
+            { term: "* Tillgänglighet", sv: "Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna." },
+            { term: "Levnadsvillkor", sv: "Handlar om hur en person lever och vilka möjligheter personen har till ett bra och tryggt liv." },
+            { term: "* Delaktighet", sv: "Betyder att få vara med, påverka och känna att man är viktig i sitt eget liv." },
+            { term: "Delaktighetsmodellen", sv: "Är ett arbetssätt för att stärka inflytande och självbestämmande för personer i behov av stöd. Bygger på 6 delar." },
+            { term: "Livskvalitet", sv: "Handlar om brukarens hälsa och välmående. Att känna sig välkommen, behövd och ha en meningsfull fritid." },
+            { term: "Normer", sv: "Förväntningar, tankar och oskrivna regler om hur någonting är eller ska vara." },
+            { term: "Värderingar", sv: "Att man får tycka och tänka som man vill och det styr vad vi gör och vad vi säger." },
+            { term: "* Funktionsförmåga", sv: "Beskriver hur en person fungerar fysiskt, psykiskt, kognitivt och socialt." },
+            { term: "Fysisk funktionsförmåga", sv: "Nedsatt rörelseförmåga, nedsatt syn, nedsatt hörsel. Man kan födas med det eller få det senare i livet." },
+            { term: "Psykisk funktionsförmåga", sv: "Trauma, sexuellt övergrepp, krig, livssituation." },
+            { term: "Kognitiv funktionsförmåga", sv: "Svårt med inlärning, minne, svårt att ta in information eller förmedla information." },
+            { term: "Social funktionsförmåga", sv: "Svårigheter med att skapa och bibehålla relationer." },
+            { term: "* Funktionsnedsättning", sv: "Betyder att en funktion är nedsatt och fungerar på ett annorlunda sätt eller inte alls." },
+            { term: "* Funktionshinder", sv: "Uppstår när omgivningen gör det svårt för en person med funktionsnedsättning att vara delaktig." },
+            { term: "* Självbestämmande", sv: "Betyder att en person får vara med och bestämma över sitt eget liv." }
+        ];
+
+        let currentCardIndex = 0;
+        let currentQuizIndex = 0;
+        let score = 0;
+        let quizQuestions = [];
+
         window.onload = function() {
+            populateTermsList();
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 document.getElementById('theme-btn').innerText = "☀️ Light Mode";
             }
+        }
+
+        function populateTermsList() {
+            const listDiv = document.getElementById('terms-list');
+            listDiv.innerHTML = "";
+            termsData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'term-item';
+                row.innerHTML = `
+                    <span class="swedish-word">${item.term}</span>
+                    <span class="swedish-explanation">${item.sv}</span>
+                `;
+                listDiv.appendChild(row);
+            });
+        }
+
+        function showStudy() {
+            document.getElementById('study-section').style.display = 'block';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+        }
+
+        function startFlashcards() {
+            document.getElementById('study-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'block';
+            currentCardIndex = 0;
+            updateFlashcard();
+        }
+
+        function updateFlashcard() {
+            const card = document.querySelector('.flashcard');
+            card.classList.remove('flipped');
+            setTimeout(() => {
+                const item = termsData[currentCardIndex];
+                document.getElementById('card-front-text').innerText = item.term;
+                document.getElementById('card-back-swedish').innerText = item.sv;
+                document.getElementById('card-counter').innerText = `${currentCardIndex + 1} / ${termsData.length}`;
+            }, 150);
+        }
+
+        function flipCard() {
+            document.querySelector('.flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < termsData.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+            }
+        }
+
+        function startQuiz() {
+            document.getElementById('study-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            currentQuizIndex = 0;
+            score = 0;
+            quizQuestions = [...termsData].sort(() => Math.random() - 0.5).slice(0, 10);
+            generateQuizQuestion();
+        }
+
+        function generateQuizQuestion() {
+            const progress = (currentQuizIndex / quizQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+
+            const current = quizQuestions[currentQuizIndex];
+            document.getElementById('question-text').innerText = `Vilket begrepp matchar denna förklaring?\n"${current.sv}"`;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = "";
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('next-btn').style.display = "none";
+
+            let options = [current];
+            while (options.length < 4) {
+                let rand = termsData[Math.floor(Math.random() * termsData.length)];
+                if (!options.includes(rand)) options.push(rand);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt.term;
+                btn.onclick = () => checkAnswer(btn, opt === current);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedBtn, isCorrect) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                document.getElementById('feedback').innerText = "Rätt svar! 🎉";
+                document.getElementById('feedback').style.color = "#27ae60";
+                score++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                document.getElementById('feedback').innerText = "Fel svar!";
+                document.getElementById('feedback').style.color = "#e74c3c";
+                buttons.forEach(btn => {
+                    if (btn.innerText === quizQuestions[currentQuizIndex].term) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            document.getElementById('next-btn').style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                generateQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('progress-bar').style.width = '100%';
+            if (score === quizQuestions.length) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="result-screen">
+                    <h3>Quizet är klart!</h3>
+                    <div class="result-score">${score} / ${quizQuestions.length}</div>
+                    <button class="btn" onclick="startQuiz()">Gör om testet 🔄</button>
+                    <button class="btn btn-secondary" style="margin-left:10px;" onclick="showStudy()">Tillbaka till listan</button>
+                </div>
+            `;
         }
 
         function toggleTheme() {
