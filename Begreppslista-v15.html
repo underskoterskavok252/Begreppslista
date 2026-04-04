@@ -18,7 +18,6 @@
             --font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
         }
 
-        /* استایل‌های تم تاریک */
         [data-theme="dark"] {
             --bg-color: #1a202c;
             --text-color: #f7fafc;
@@ -35,6 +34,9 @@
             padding: 0;
             line-height: 1.6;
             transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         nav {
@@ -73,7 +75,6 @@
 
         nav a:hover:not(.active) { color: #ffffff; }
 
-        /* دکمه تم تاریک */
         .theme-toggle {
             background: none; border: 1px solid #4a5568; color: #a0aec0;
             padding: 5px 12px; border-radius: 20px; cursor: pointer;
@@ -84,6 +85,7 @@
         .container {
             max-width: 800px; margin: 30px auto;
             padding: 0 20px; padding-bottom: 50px;
+            flex: 1;
         }
 
         h1 { color: var(--primary-color); text-align: center; font-weight: 800; font-size: 2.2rem; margin-bottom: 10px; }
@@ -97,7 +99,6 @@
 
         .section-title { font-size: 1.5rem; color: var(--text-color); margin-top: 0; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
 
-        /* کادر جستجو */
         .search-container { margin-bottom: 20px; position: relative; }
         .search-input {
             width: 100%; padding: 12px 15px; border: 2px solid var(--border-color);
@@ -179,7 +180,6 @@
         #feedback { margin-top: 15px; font-weight: 700; font-size: 1.1rem; text-align: center; min-height: 1.6em; }
         #next-btn { display: none; margin-top: 15px; }
 
-        /* Survey Section */
         #survey-section { display: none; text-align: center; }
         .survey-btn {
             background-color: var(--card-bg); border: 2px solid var(--border-color); font-size: 2rem; padding: 15px 25px;
@@ -190,6 +190,18 @@
 
         .result-screen { text-align: center; }
         .result-score { font-size: 3rem; font-weight: 800; color: var(--primary-color); margin: 20px 0; }
+
+        /* بخش کپی‌رایت انتهای صفحه */
+        footer {
+            background-color: var(--nav-bg);
+            color: #a0aec0;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+        }
+        footer span { color: #ffffff; font-weight: 600; }
 
         @media (max-width: 600px) {
             h1 { font-size: 1.8rem; }
@@ -223,7 +235,7 @@
                 <h2 class="welcome-title">Välkommen! Vad heter du?</h2>
                 <input type="text" id="user-name-input" placeholder="Ditt namn...">
                 <br>
-                <button class="btn" onclick="registerUser()">Spara och starta</button>
+                <button class="btn" onclick="registerUser()">Spara och startا</button>
             </div>
             <div id="welcome-message" style="display:none;">
                 <h2 class="welcome-title">Hej <span id="display-name"></span>! 👋</h2>
@@ -290,6 +302,10 @@
 
     </div>
 
+    <footer>
+        <p>© 2026 Skapad av <span>Mohsen Naderi</span>. Alla rättigheter förbehållna.</p>
+    </footer>
+
     <script>
         const begreppData = [
             { begrepp: "Demokratisk värdegrund", definition: "Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället." },
@@ -319,7 +335,7 @@
             { fraga: "Vilket begrepp innebär att: 'Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.'?", svar: [{text:"Likvärdighet", correct:true}, {text:"Inkludering", correct:false}, {text:"Tillgänglighet", correct:false}, {text:"Funktionshinder", correct:false}] },
             { fraga: "Vilket begrepp betyder att: 'Alla människor får vara med och känna sig delaktiga...'?", svar: [{text:"Inkludering", correct:true}, {text:"Normer", correct:false}, {text:"Värderingar", correct:false}, {text:"Delaktighet", correct:false}] },
             { fraga: "Vilket begrepp innebär att: 'Alla miljöer i samhället ska vara förberedda på att alla är olika...'?", svar: [{text:"Tillgänglighet", correct:true}, {text:"Funktionsförmåga", correct:false}, {text:"Självbestämmande", correct:false}, {text:"Lika värde", correct:false}] },
-            { fraga: "Vad handlar 'Levnadsvillkor' om?", svar: [{text:"Hur en person lever och vilka möjligheter personen har till ett bra liv.", correct:true}, {text:"De lagar som bestämmer över vården.", correct:false}, {text:"Rätten till självbestämmande.", correct:false}, {text:"Oskrivna regler om hur någonting är.", correct:false}] },
+            { fraga: "Vad handlar 'Levnadsvillkor' om?", svar: [{text:"Hur en person lever och vilka möjligheter personen har till ett bra liv.", correct:true}, {text:"De lagار som bestämmer över vården.", correct:false}, {text:"Rätten till självbestämmande.", correct:false}, {text:"Oskrivna regler om hur någonting är.", correct:false}] },
             { fraga: "Vilket begrepp betyder: 'Att få vara med, påverka och känna att man är viktig...'?", svar: [{text:"Delaktighet", correct:true}, {text:"Normer", correct:false}, {text:"Funktionsförmåga", correct:false}, {text:"Livskvalitet", correct:false}] },
             { fraga: "Vilket begrepp beskriver Delaktighetsmodellen?", svar: [{text:"Ett arbetssätt för att stärka inflytande, bygger på 6 delar.", correct:true}, {text:"Normaliseringsprincipen", correct:false}, {text:"Demokratisk värdegrund", correct:false}, {text:"Värderingar", correct:false}] },
             { fraga: "Vilket begrepp handlar om: 'Brukarens hälsa och välmående, känna sig välkommen.'?", svar: [{text:"Livskvalitet", correct:true}, {text:"Levnadsvillkor", correct:false}, {text:"Funktionsförmåga", correct:false}, {text:"Likvärdighet", correct:false}] },
@@ -343,11 +359,9 @@
         window.onload = function() {
             const savedName = localStorage.getItem('student_name_v15');
             if (savedName) { userName = savedName; showWelcome(savedName); }
-            // اعمال تم تاریک در صورت ذخیره بودن
             if (localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); document.getElementById('theme-btn').innerText = "☀️ Light Mode"; }
         }
 
-        // تم تاریک و روشن
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let targetTheme = "light";
@@ -357,7 +371,6 @@
             localStorage.setItem('theme', targetTheme);
         }
 
-        // جستجوی واژه‌ها
         function searchBegrepp() {
             const query = document.getElementById('search-box').value.toLowerCase();
             const index = begreppData.findIndex(item => item.begrepp.toLowerCase().includes(query));
@@ -478,7 +491,6 @@
             updateProgressBar();
             document.getElementById('next-btn').style.display = "none";
             
-            // افکت انفجار کاغذ رنگی در صورت موفقیت
             if (score >= 15) {
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
