@@ -47,7 +47,7 @@
         }
 
         nav .nav-container {
-            max-width: 1200px; /* عریض‌تر شدن منو */
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -82,7 +82,7 @@
         .theme-toggle:hover { color: #fff; border-color: #fff; }
 
         .container {
-            max-width: 1200px; /* عریض‌تر شدن کادر کل کلمات */
+            max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px; padding-bottom: 50px;
             flex: 1;
@@ -91,7 +91,6 @@
         h1 { color: var(--primary-color); text-align: center; font-weight: 800; font-size: 2.2rem; margin-bottom: 10px; }
         .page-subtitle { text-align: center; color: #718096; margin-bottom: 30px; font-size: 1.1rem; }
         
-        /* استایل‌های جدول بازسازی شده */
         .table-responsive {
             overflow-x: auto;
             background-color: var(--card-bg);
@@ -120,6 +119,7 @@
             padding: 16px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-color);
+            vertical-align: top;
         }
 
         tr:last-child td { border-bottom: none; }
@@ -157,7 +157,7 @@
     <div class="container">
         
         <h1>Begreppslista vecka 15</h1>
-        <p class="page-subtitle">Ordlista med svenska förklaringar och persisk översättning.</p>
+        <p class="page-subtitle">Ordlista baserad på din fil med svenska förklaringar och persisk översättning.</p>
 
         <div class="table-responsive">
             <table>
@@ -175,49 +175,94 @@
                         <td>Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Lika värde *</td>
+                        <td class="swedish-word">* Lika värde</td>
                         <td class="persian-word">ارزش برابر</td>
                         <td>Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Likvärdighet *</td>
-                        <td class="persian-word">برابری در فرصت‌ها</td>
+                        <td class="swedish-word">* Likvärdighet</td>
+                        <td class="persian-word">برابری در فرصت‌ها / هم‌ارزی</td>
                         <td>Något ska vara lika bra för alla. Alla ska ha rätt till samma vård.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Inkludering *</td>
-                        <td class="persian-word">شامل‌سازی</td>
+                        <td class="swedish-word">* Inkludering</td>
+                        <td class="persian-word">شامل‌سازی / همه‌شمولی</td>
                         <td>Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Tillgänglighet *</td>
+                        <td class="swedish-word">* Tillgänglighet</td>
                         <td class="persian-word">دسترس‌پذیری</td>
-                        <td>Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna.</td>
+                        <td>Innebär att alla miljöer i samhället ska vara برایeredda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget.</td>
                     </tr>
                     <tr>
                         <td class="swedish-word">Levnadsvillkor</td>
                         <td class="persian-word">شرایط زندگی</td>
-                        <td>Handlar om hur en person lever och vilka möjligheter personen har till ett bra och tryggt liv.</td>
+                        <td>Levnadsvillkor handlar om hur en person lever och vilka möjligheter personen har till ett bra och tryggt liv.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Delaktighet *</td>
+                        <td class="swedish-word">* Delaktighet</td>
                         <td class="persian-word">مشارکت و سهیم بودن</td>
                         <td>Betyder att få vara med, påverka och känna att man är viktig i sitt eget liv.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Funktionsförmåga *</td>
+                        <td class="swedish-word">Delaktighetsmodellen</td>
+                        <td class="persian-word">مدل مشارکت</td>
+                        <td>Är ett arbetssätt för att stärka inflytande och självbestämmande för personer i behov av stöd. Modellen bygger på 6 olika delar (Tillgänglighet, Tillhörighet, Engagemang, Samhandling, Autonomi, Erkännande).</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">Livskvalitet</td>
+                        <td class="persian-word">کیفیت زندگی</td>
+                        <td>Handlar om brukarens hälsa och välmående. Att känna sig välkommen, behövd och ha en meningsfull fritid.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">Normer</td>
+                        <td class="persian-word">هنجارها</td>
+                        <td>Förväntningar, tankar och oskrivna regler om hur någonting är eller ska vara.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">Värderingar</td>
+                        <td class="persian-word">ارزش‌ها</td>
+                        <td>Att man får tycka och tänka som man vill och det styr vad vi gör och vad vi säger.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">* Funktionsförmåga</td>
                         <td class="persian-word">توانایی عملکردی</td>
                         <td>Beskriver hur en person fungerar fysiskt, psykiskt, kognitivt och socialt.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Funktionsnedsättning *</td>
-                        <td class="persian-word">کم‌توانی / نقص عملکرد</td>
-                        <td>Betyder att en funktion är nedsatt och fungerar på ett annorlunda sätt än hos de flesta andra.</td>
+                        <td class="swedish-word">Fysisk funktionsförmåga</td>
+                        <td class="persian-word">توانایی عملکرد جسمی</td>
+                        <td>Nedsatt rörelseförmåga, nedsatt syn, nedsatt hörsel. Man kan födas med det eller få det senare i livet.</td>
                     </tr>
                     <tr>
-                        <td class="swedish-word">Funktionshinder *</td>
-                        <td class="persian-word">مانع عملکردی</td>
-                        <td>Uppstår i mötet mellan en person med funktionsnedsättning och en bristfällig miljö. Det är inget man ÄR, utan något som UPPSTÅR.</td>
+                        <td class="swedish-word">Psykisk funktionsförmåga</td>
+                        <td class="persian-word">توانایی عملکرد روانی</td>
+                        <td>Trauma, sexuellt övergrepp, krig, livssituation.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">Kognitiv funktionsförmåga</td>
+                        <td class="persian-word">توانایی عملکرد شناختی</td>
+                        <td>Svårt med inlärning, minne, svårt att ta in information eller förmedla information, bli störd av olika ljud.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">Social funktionsförmåga</td>
+                        <td class="persian-word">توانایی عملکرد اجتماعی</td>
+                        <td>Svårigheter med att skapa och bibehålla relationer.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">* Funktionsnedsättning</td>
+                        <td class="persian-word">کم‌توانی / نقص عملکرد</td>
+                        <td>Betyder att en funktion är nedsatt och fungerar på ett annorlunda sätt eller inte alls.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">* Funktionshinder</td>
+                        <td class="persian-word">مانع عملکردی / معلولیت محیطی</td>
+                        <td>Uppstår när omgivningen gör det svårt för en person med funktionsnedsättning att vara delaktig på lika villkor.</td>
+                    </tr>
+                    <tr>
+                        <td class="swedish-word">* Självbestämmande</td>
+                        <td class="persian-word">حق تعیین سرنوشت / خودفرمانی</td>
+                        <td>Betyder att en person får vara med och تصمیم بگیرد över sitt eget liv.</td>
                     </tr>
                 </tbody>
             </table>
