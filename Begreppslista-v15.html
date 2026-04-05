@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Begreppslista v.15 - Premium med Ljud</title>
+    <title>Begreppslista v.15 - Med Ljud för Alla Delar</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -65,10 +65,6 @@
         .option-btn.wrong { background-color: #fed7d7 !important; color: #822727 !important; }
         
         .timer-bar { height: 6px; background-color: #e06c75; width: 100%; border-radius: 3px; transition: width 1s linear; margin-bottom: 15px; }
-
-        .rating-stars input:checked ~ label,
-        .rating-stars label:hover,
-        .rating-stars label:hover ~ label { color: #f6ad55 !important; }
     </style>
 </head>
 <body>
@@ -100,28 +96,29 @@
 
         <div id="flashcard-section" class="box" style="display:none;">
             <h2 class="section-title">🗂️ Flashcards (Leitner System)</h2>
-            <p style="text-align:center; color:#718096;">Klicka på kortet för att vända. Begreppet läses upp automatiskt! 🔊</p>
+            <p style="text-align:center; color:#718096;">Klicka på kortet för att vända. Begreppet läses upp först! 🔊</p>
+            
             <div class="flashcard-area">
                 <div class="flashcard">
                     <div class="flashcard-inner">
                         <div class="flashcard-front" onclick="flipCard()">
                             <h2 style="color: var(--primary-color); font-size: 2.2rem;" id="card-front-text">Begrepp</h2>
+                            <button class="btn btn-secondary" style="margin-top: 20px; font-size: 0.9rem;" onclick="event.stopPropagation(); speakCurrentTerm();">Lyssna på begreppet 🔊</button>
                         </div>
                         <div class="flashcard-back" onclick="flipCard()">
                             <p id="card-back-swedish" style="font-size: 1.2rem; line-height: 1.6;">Svensk förklaring</p>
+                            <button class="btn btn-secondary" style="margin-top: 20px; font-size: 0.9rem;" onclick="event.stopPropagation(); speakCurrentDef();">Lyssna på förklaringen 🔊</button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;">
                 <div style="display:flex; gap: 10px;">
                     <button class="btn" style="background-color:#e06c75;" onclick="markCard(false)">Kunde inte ❌</button>
                     <button class="btn" style="background-color:#48bb78;" onclick="markCard(true)">Kunde det! ✔️</button>
                 </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <span id="card-counter" style="font-weight: 600;">1 / 19</span>
-                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="speakCurrentTerm()">Lyssna igen 🔊</button>
-                </div>
+                <span id="card-counter" style="font-weight: 600;">1 / 19</span>
                 <button class="btn btn-secondary" style="font-size: 0.9rem;" onclick="showStudy()">Avbryt och till listan</button>
             </div>
         </div>
@@ -139,30 +136,13 @@
                 <button id="next-btn" class="btn" style="display:none; margin: 15px auto 0 auto;" onclick="nextQuestion()">Nästa fråga ➡️</button>
             </div>
         </div>
-
-        <div class="box" style="margin-top: 30px;">
-            <h2 class="section-title">Tyck till och ge förslag! 💬</h2>
-            <form id="quiz-suggestion-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <div>
-                    <label style="font-weight: 600; font-size: 0.95rem; color: var(--text-color);">Hur bra var övningarna? *</label>
-                    <div class="rating-stars" style="display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 10px; margin: 5px 0 15px 0;">
-                        <input type="radio" name="star-quiz" id="qstar5" value="5" style="display:none;"><label for="qstar5" style="font-size: 2rem; color: #cbd5e1; cursor: pointer;">★</label>
-                        <input type="radio" name="star-quiz" id="qstar4" value="4" style="display:none;"><label for="qstar4" style="font-size: 2rem; color: #cbd5e1; cursor: pointer;">★</label>
-                        <input type="radio" name="star-quiz" id="qstar3" value="3" style="display:none;"><label for="qstar3" style="font-size: 2rem; color: #cbd5e1; cursor: pointer;">★</label>
-                        <input type="radio" name="star-quiz" id="qstar2" value="2" style="display:none;"><label for="qstar2" style="font-size: 2rem; color: #cbd5e1; cursor: pointer;">★</label>
-                        <input type="radio" name="star-quiz" id="qstar1" value="1" style="display:none;"><label for="qstar1" style="font-size: 2rem; color: #cbd5e1; cursor: pointer;">★</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn" style="align-self: flex-start;">Skicka in ✉️</button>
-            </form>
-            <div id="quiz-form-feedback" style="display: none; margin-top: 15px; padding: 15px; background-color: rgba(104, 211, 145, 0.2); color: #2f855a; border-radius: 8px; text-align: center;">Tack! Ditt förslag har skickats. 🎉</div>
-        </div>
     </div>
 
     <script>
+        // دیتابیس ۱۹ تایی از فایل ارسالی شما
         const termsData = [
             { term: "Demokratisk värdegrund", sv: "Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället." },
-            { term: "Lika värده", sv: "Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske." },
+            { term: "Lika värde", sv: "Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske." },
             { term: "Likvärdighet", sv: "Något ska vara lika bra för alla. Alla ska ha rätt till samma vård." },
             { term: "Inkludering", sv: "Alla människor får vara med och känna sig delaktiga, oavsett funktionsnedsättning, ålder eller bakgrund." },
             { term: "Tillgänglighet", sv: "Innebär att alla miljöer i samhället ska vara förberedda på att alla är olika och har olika behov. Alla ska känna sig välkomna och vara en del i sammanhanget." },
@@ -175,7 +155,7 @@
             { term: "Funktionsförmåga", sv: "Beskriver hur en person fungerar fysiskt, psykiskt, kognitivt och socialt." },
             { term: "Fysisk funktionsförmåga", sv: "Nedsatt rörelseförmåga, nedsatt syn, nedsatt hörsel. Man kan födas med det eller få det senare i livet." },
             { term: "Psykisk funktionsförmåga", sv: "Trauma, sexuellt övergrepp, krig, livssituation." },
-            { term: "Kognitiv funktionsförmåga", sv: "Svårt med inlärning, minنه، svårt att ta in information eller förmedla information, bli störd av olika ljud." },
+            { term: "Kognitiv funktionsförmåga", sv: "Svårt med inlärning, minne, svårt att ta in information eller förmedla information, bli störd av olika ljud." },
             { term: "Social funktionsförmåga", sv: "Svårigheter med att skapa och bibehålla relationer." },
             { term: "Funktionsnedsättning", sv: "Betyder att en funktion är nedsatt och fungerar på ett annorlunda sätt eller inte alls." },
             { term: "Funktionshinder", sv: "Uppstår när omgivningen gör det svårt för en person med funktionsnedsättning att vara delaktig på lika villkor." },
@@ -192,19 +172,20 @@
         let timerInterval;
         let timeLeft = 15;
 
-        // تابع خواندن متن با لهجه سوئدی
+        // تابع خواندن متن با صدای سوئدی
         function speakSwedish(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
+                window.speechSynthesis.cancel(); // لغو صحبت‌های قبلی
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'sv-SE';
-                utterance.rate = 0.85;
+                utterance.rate = 0.85; // سرعت ملایم‌تر
                 window.speechSynthesis.speak(utterance);
             }
         }
 
         window.onload = function() { populateTermsList(); }
 
+        // ایجاد لیست مطالعه
         function populateTermsList() {
             const listDiv = document.getElementById('terms-list');
             listDiv.innerHTML = "";
@@ -215,9 +196,13 @@
                 row.style.display = 'flex';
                 row.style.justifyContent = 'space-between';
                 row.style.alignItems = 'center';
+                
                 row.innerHTML = `
                     <span><b style="color:var(--primary-color);">${item.term}</b> - ${item.sv}</span>
-                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="speakSwedish('${item.term.replace(/'/g, "\\'")}')">🔊</button>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="speakSwedish('${item.term.replace(/'/g, "\\'")}')">Term 🔊</button>
+                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="speakSwedish('${item.sv.replace(/'/g, "\\'")}')">Def 🔊</button>
+                    </div>
                 `;
                 listDiv.appendChild(row);
             });
@@ -242,23 +227,26 @@
                 document.getElementById('card-back-swedish').innerText = activeCards[currentCardIndex].sv;
                 document.getElementById('card-counter').innerText = `${currentCardIndex + 1} / ${activeCards.length} (Kvar: ${activeCards.length + failedCards.length})`;
                 
-                // خواندن خودکار عنوان کارت
+                // فقط اصطلاح اول به صورت خودکار خوانده شود
                 speakSwedish(currentTerm);
             }, 150);
         }
 
+        // توابع کمکی پخش صدا برای جلو و پشت کارت
         function speakCurrentTerm() {
             speakSwedish(activeCards[currentCardIndex].term);
         }
 
-        function flipCard() { document.querySelector('.flashcard').classList.toggle('flipped'); }
+        function speakCurrentDef() {
+            speakSwedish(activeCards[currentCardIndex].sv);
+        }
+
+        function flipCard() { 
+            document.querySelector('.flashcard').classList.toggle('flipped'); 
+        }
 
         function markCard(known) {
             if (!known) failedCards.push(activeCards[currentCardIndex]);
-            else {
-                let learned = parseInt(localStorage.getItem('cardsLearnedCount') || 0) + 1;
-                localStorage.setItem('cardsLearnedCount', learned);
-            }
             
             currentCardIndex++;
             if (currentCardIndex >= activeCards.length) {
@@ -278,6 +266,7 @@
             }
         }
 
+        // بخش کوئیز
         function startQuiz() { 
             document.getElementById('study-section').style.display = 'none'; 
             document.getElementById('quiz-section').style.display = 'block'; 
@@ -303,6 +292,10 @@
 
             const current = quizQuestions[currentQuizIndex];
             document.getElementById('question-text').innerText = `(${currentQuizIndex + 1}/19) Vad betyder "${current.term}"?`;
+            
+            // پخش صدای کلمه سوال در کوئیز
+            speakSwedish(current.term);
+
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = ""; document.getElementById('feedback').innerText = ""; document.getElementById('next-btn').style.display = "none";
 
@@ -331,7 +324,6 @@
                 selectedBtn.classList.add('correct'); 
                 score++; 
                 document.getElementById('current-score').innerText = score;
-                new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==').play();
             } else { 
                 if (selectedBtn) selectedBtn.classList.add('wrong'); 
                 buttons.forEach(btn => { if (btn.innerText === quizQuestions[currentQuizIndex].sv) btn.classList.add('correct'); }); 
@@ -343,8 +335,6 @@
             currentQuizIndex++; 
             if (currentQuizIndex < quizQuestions.length) generateQuizQuestion(); 
             else {
-                let high = localStorage.getItem('quizHighScore') || 0;
-                if (score > high) localStorage.setItem('quizHighScore', score);
                 document.getElementById('quiz-content').innerHTML = `<h3>Klar! Din poäng: ${score} / ${quizQuestions.length}</h3><button class="btn" onclick="startQuiz()">Gör om</button>`; 
                 if(score === 19) confetti();
             }
@@ -357,12 +347,6 @@
             localStorage.setItem('theme', targetTheme);
         }
         if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-
-        document.getElementById('quiz-suggestion-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('quiz-suggestion-form').style.display = 'none';
-            document.getElementById('quiz-form-feedback').style.display = 'block';
-        });
     </script>
 </body>
 </html>
