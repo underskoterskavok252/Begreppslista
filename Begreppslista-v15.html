@@ -48,7 +48,7 @@
         }
 
         nav .nav-container {
-            max-width: 1200px; /* عریض بودن کادر منو */
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -83,7 +83,7 @@
         .theme-toggle:hover { color: #fff; border-color: #fff; }
 
         .container {
-            max-width: 1200px; /* عریض بودن کادر محتوا */
+            max-width: 1200px; /* حداکثر عرض کل صفحه */
             margin: 30px auto;
             padding: 0 20px; padding-bottom: 50px;
             flex: 1;
@@ -117,10 +117,13 @@
         .swedish-word { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
         .swedish-explanation { color: var(--text-color); font-size: 0.95rem; max-width: 70%; text-align: right; }
 
-        /* فلش کارت */
+        /* 🔥 تغییرات اساسی برای عریض‌تر شدن فلش‌کارت 🔥 */
         .flashcard-area { display: flex; justify-content: center; margin: 30px 0; }
         .flashcard {
-            width: 100%; max-width: 500px; height: 250px; perspective: 1000px; cursor: pointer;
+            width: 100%; 
+            max-width: 800px; /* قبلاً ۵۰۰ پیکسل بود، الان بزرگتر شده */
+            height: 300px; /* ارتفاع هم کمی بیشتر شد تا متن جا بگیرد */
+            perspective: 1000px; cursor: pointer;
         }
         .flashcard-inner {
             position: relative; width: 100%; height: 100%; text-align: center;
@@ -130,12 +133,12 @@
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
         .flashcard-front, .flashcard-back {
             position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 25px; box-sizing: border-box;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 35px; box-sizing: border-box;
             border-radius: 16px; background-color: var(--card-bg); border: 2px solid var(--border-color);
         }
         .flashcard-back { transform: rotateY(180deg); }
         
-        /* کوئیز */
+        /* कोईز */
         .progress-container { width: 100%; background-color: #e2e8f0; border-radius: 10px; height: 10px; margin-bottom: 20px; overflow: hidden; }
         [data-theme="dark"] .progress-container { background-color: #4a5568; }
         .progress-bar { height: 100%; background-color: var(--primary-color); width: 0%; transition: width 0.3s ease; }
@@ -180,8 +183,7 @@
 
         <div id="study-section" class="box">
             <h2 class="section-title"><span>📖</span> Studera begrepp</h2>
-            <div id="terms-list">
-                </div>
+            <div id="terms-list"></div>
             <div style="text-align: center; margin-top: 20px;">
                 <button class="btn" onclick="startFlashcards()">Öva med Flashcards 🗂️</button>
                 <button class="btn btn-secondary" style="margin-left: 10px;" onclick="startQuiz()">Gör Begreppsquiz 🎯</button>
@@ -194,11 +196,11 @@
                 <div class="flashcard" onclick="flipCard()">
                     <div class="flashcard-inner">
                         <div class="flashcard-front">
-                            <h2 style="color: var(--primary-color);" id="card-front-text">Begrepp</h2>
-                            <p style="color: #718096; font-size: 0.9rem;">Klicka för att se förklaringen</p>
+                            <h2 style="color: var(--primary-color); font-size: 1.8rem;" id="card-front-text">Begrepp</h2>
+                            <p style="color: #718096; font-size: 1rem; margin-top: 15px;">Klicka för att se förklaringen</p>
                         </div>
                         <div class="flashcard-back">
-                            <p id="card-back-swedish" style="font-size: 1.1rem; line-height: 1.6; font-weight: 500;">Svensk förklaring</p>
+                            <p id="card-back-swedish" style="font-size: 1.25rem; line-height: 1.6; font-weight: 500;">Svensk förklaring</p>
                         </div>
                     </div>
                 </div>
@@ -208,7 +210,7 @@
                 <span id="card-counter" style="margin: 0 15px; font-weight: 600;">1 / 10</span>
                 <button class="btn" onclick="nextCard()">Nästa ➡️</button>
                 <br><br>
-                <button class="btn btn-secondary" style="font-size: 0.9rem;" onclick="showStudy()">Tillbaka till listan</button>
+                <button class="btn btn-secondary" style="font-size: 0.9rem;" onclick="showStudy()">Tillbaka till listان</button>
             </div>
         </div>
 
@@ -232,7 +234,6 @@
     </footer>
 
     <script>
-        // دیتابیس لغات فقط به زبان سوئدی
         const termsData = [
             { term: "Demokratisk värdegrund", sv: "Alla människor har lika värde, rätt att bli respekterade och rätt att vara delaktiga i samhället." },
             { term: "* Lika värde", sv: "Alla människor är olika och har unika förmågor. Det som är olika berikar och behövs för att utveckling ska ske." },
