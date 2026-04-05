@@ -16,13 +16,13 @@
             --font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
         }
 
-        /* استایل‌های تم تاریک */
+        /* استایل‌های دارک مود */
         [data-theme="dark"] {
             --bg-color: #1a202c;
             --text-color: #f7fafc;
             --card-bg: #2d3748;
             --border-color: #4a5568;
-            --nav-bg: #1a202c;
+            --nav-bg: #11141a;
         }
 
         body {
@@ -65,7 +65,7 @@
             <div class="nav-links">
                 <a href="index.html" class="active">🏠 Hem</a>
                 <a href="Begreppslista-v15.html">📖 Begrepp v.15</a>
-                <a href="index.html">🎯 Helhetsperspektiv</a>
+                <a href="Helhetsperspektiv.html">🎯 Helhetsperspektiv</a>
             </div>
             <button class="dark-mode-btn" onclick="toggleTheme()">🌙 Dark Mode</button>
         </div>
@@ -82,7 +82,7 @@
 
         <div class="card">
             <h2 class="menu-title">📚 Studera Nu</h2>
-            <p style="color: #718096; margin-bottom: 30px;">Klicka på knappen nedan för att öppna ordlistan och börja plugga.</p>
+            <p style="color: #718096; margin-bottom: 30px;">Klicka på knappen nedan för att öppna ordlistan och börja plugگا.</p>
             <a href="Begreppslista-v15.html" class="btn">Öppna Begreppslista ➡️</a>
         </div>
     </div>
@@ -112,7 +112,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // اسکریپت دارک مود
+        // اسکریپت دارک مود یکپارچه
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
