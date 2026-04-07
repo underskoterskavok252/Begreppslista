@@ -16,17 +16,16 @@
         nav { background-color: var(--nav-bg); padding: 15px 20px; color: white; display: flex; justify-content: space-between; }
         nav a { color: #a0aec0; text-decoration: none; font-weight: bold; margin-right: 15px; }
         nav a:hover, nav a.active { color: white; }
-        
         .hero { text-align: center; padding: 50px 20px; background: white; border-bottom: 1px solid var(--border-color); }
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; flex: 1; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; flex: 1; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card { 
-            background: white; padding: 25px; border-radius: 15px; text-align: center; 
+            background: white; padding: 30px; border-radius: 15px; text-align: center; 
             border: 1px solid var(--border-color); transition: 0.3s; text-decoration: none; color: inherit;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); border-color: var(--primary-color); }
-        .card h3 { color: var(--primary-color); margin-top: 10px; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .card h3 { color: var(--primary-color); margin-top: 15px; }
         footer { background: var(--nav-bg); color: #a0aec0; text-align: center; padding: 20px; margin-top: 40px; }
     </style>
 </head>
@@ -37,7 +36,6 @@
         <a href="index.html" class="active">🏠 Hem</a>
         <a href="Begreppslista-v15.html">📖 Begrepp v.15</a>
         <a href="Helhetsperspektiv.html">🎯 Helhetsperspektiv</a>
-        <a href="shop.html">🛒 VO-Shop</a>
     </div>
 </nav>
 
@@ -49,21 +47,15 @@
 <div class="container">
     <div class="grid">
         <a href="Begreppslista-v15.html" class="card">
-            <span style="font-size: 3rem;">📖</span>
+            <span style="font-size: 3.5rem;">📖</span>
             <h3>Begreppslista</h3>
             <p>Träna på veckans begrepp med flashcards och quiz.</p>
         </a>
 
         <a href="Helhetsperspektiv.html" class="card">
-            <span style="font-size: 3rem;">🎯</span>
+            <span style="font-size: 3.5rem;">🎯</span>
             <h3>Helhetsperspektiv</h3>
             <p>Läs om värdegrund, delaktighet och historik.</p>
-        </a>
-
-        <a href="shop.html" class="card">
-            <span style="font-size: 3rem;">🛒</span>
-            <h3>VO-Shop</h3>
-            <p>Hitta rätt kurslitteratur och verktyg för studierna.</p>
         </a>
     </div>
 </div>
