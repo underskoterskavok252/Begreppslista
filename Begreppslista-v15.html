@@ -192,7 +192,7 @@
         let score = 0;
         let quizQuestions = [];
         let timerInterval;
-        let timeLeft = 15;
+        let timeLeft = 40;
 
         function speakSwedish(text) {
             if ('speechSynthesis' in window) {
@@ -287,12 +287,12 @@
 
         function generateQuizQuestion() {
             clearInterval(timerInterval);
-            timeLeft = 15;
+            timeLeft = 40;
             document.getElementById('timer').style.width = '100%';
             
             timerInterval = setInterval(() => {
                 timeLeft--;
-                document.getElementById('timer').style.width = (timeLeft / 15) * 100 + '%';
+                document.getElementById('timer').style.width = (timeLeft / 40) * 100 + '%';
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     checkAnswer(null, false);
