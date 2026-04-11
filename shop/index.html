@@ -22,7 +22,6 @@
             line-height: 1.6;
         }
 
-        /* Navigation */
         nav {
             background: var(--white);
             padding: 15px 5%;
@@ -37,7 +36,6 @@
 
         .logo { font-weight: 800; font-size: 1.5rem; color: var(--primary-color); text-decoration: none; }
 
-        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
             color: var(--white);
@@ -46,12 +44,9 @@
             clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
         }
 
-        /* Main Container */
         .wrapper { max-width: 1100px; margin: 0 auto; padding: 20px 20px 60px; }
 
-        .back-btn-container {
-            margin-bottom: 20px;
-        }
+        .back-btn-container { margin-bottom: 20px; }
 
         .expert-notice {
             background: #eef2ff;
@@ -64,24 +59,12 @@
             gap: 20px;
         }
 
-        /* Product Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
-<div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0;">
-    <h3 style="color: #2d3748; margin-bottom: 10px;">Skinome - Hudvård för vårdpersonal</h3>
-    <p style="color: #4a5568; font-size: 0.9rem; line-height: 1.5;">
-        بهترین محصولات مراقبت از پوست، مخصوص کسانی که در محیط‌های درمانی کار می‌کنند.
-    </p>
-    <a href="https://ion.skinome.com/t/t?a=2030830791&as=2065169436&t=2&tk=1" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       style="display: inline-block; background: #4299e1; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; margin-top: 15px; font-weight: bold; transition: background 0.3s;">
-       مشاهده و خرید محصولات
-    </a>
-</div>
+
         .card {
             background: var(--white);
             border-radius: 20px;
@@ -99,15 +82,18 @@
             padding: 30px;
             text-align: center;
             height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .card-img-container img {
             max-width: 100%;
-            height: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
 
-        .card-content { padding: 25px; flex-grow: 1; }
+        .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
         
         .badge {
             background: #edf2f7;
@@ -117,6 +103,7 @@
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
+            align-self: flex-start;
         }
 
         .price-btn {
@@ -128,13 +115,12 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 12px;
-            margin-top: 20px;
+            margin-top: auto;
             transition: 0.3s;
         }
 
         .price-btn:hover { background: var(--primary-dark); }
 
-        /* Form */
         .contact-section {
             margin-top: 60px;
             background: #fff;
@@ -160,9 +146,9 @@
 <nav>
     <a href="/" class="logo">VO-GUIDEN <span style="color: var(--accent-color);">.</span></a>
     <div class="menu">
-        <a href="/shop/index.html" class="shop-link">
-    <i class="fas fa-shopping-cart"></i> Köp Böcker
-</a>
+        <a href="/shop/index.html" class="shop-link" style="text-decoration: none; color: var(--primary-color); font-weight: bold;">
+            <i class="fas fa-shopping-cart"></i> Köp Böcker
+        </a>
     </div>
 </nav>
 
@@ -187,6 +173,20 @@
     </div>
 
     <div class="grid">
+        <div class="card" style="border: 2px solid #63b3ed;">
+            <div class="card-img-container">
+                <img src="https://skinome.com/cdn/shop/files/Skinome_Logo_Black.png" alt="Skinome Logo">
+            </div>
+            <div class="card-content">
+                <span class="badge" style="background: #ebf8ff; color: #2b6cb0;">Rekommenderat för vårdpersonal</span>
+                <h3>Skinome Hudvård</h3>
+                <p style="font-size: 0.9rem; color: #4a5568; margin-top: 15px;">Färsk hudvård som stärker hudens naturliga barriär. Perfekt för dig som tvättar händerna ofta i arbetet.</p>
+                <a href="https://ion.skinome.com/t/t?a=2030830791&as=2065169436&t=2&tk=1" target="_blank" rel="noopener noreferrer" class="price-btn">
+                    <i class="fas fa-external-link-alt"></i> Se produkter & handla
+                </a>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-img-container">
                 <img src="medicin_bas.png" alt="Medicin Bas">
